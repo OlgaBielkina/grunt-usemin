@@ -6,7 +6,7 @@ var chalk = require('chalk');
 //  - a dedicated one for the furnished target
 //  - a general one
 //  - the default one
-var getFlowFromConfig = function (config, target) {
+var getFlowFromOptions = function (options, target) {
   var Flow = require('../lib/flow');
   var flow = new Flow({
     steps: {
@@ -15,13 +15,13 @@ var getFlowFromConfig = function (config, target) {
     },
     post: {}
   });
-  if (config.options && config.options.flow) {
-    if (config.options.flow[target]) {
-      flow.setSteps(config.options.flow[target].steps);
-      flow.setPost(config.options.flow[target].post);
+  if (options && options.flow) {
+    if (options.flow[target]) {
+      flow.setSteps(options.flow[target].steps);
+      flow.setPost(options.flow[target].post);
     } else {
-      flow.setSteps(config.options.flow.steps);
-      flow.setPost(config.options.flow.post);
+      flow.setSteps(options.flow.steps);
+      flow.setPost(options.flow.post);
     }
   }
   return flow;
@@ -164,7 +164,7 @@ module.exports = function (grunt) {
       .writeln('Going through ' + grunt.verbose.wordlist(this.filesSrc) + ' to update the config')
       .writeln('Looking for build script HTML comment blocks');
 
-    var flow = getFlowFromConfig(grunt.config('useminPrepare'), this.target);
+    var flow = getFlowFromOptions(options, this.target);
 
     var c = new ConfigWriter(flow, {
       root: root,

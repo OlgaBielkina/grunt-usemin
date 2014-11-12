@@ -226,7 +226,6 @@ useminPrepare: {
   }
 }
 ```
-
 * to customize the generated configuration via post-processors:
 
 ```js
@@ -249,6 +248,38 @@ useminPrepare: {
         }]
       }
     }
+  }
+}
+```
+
+* to have multiple profiles with custom options:
+
+```js
+useminPrepare: {
+  dist: {
+    src: 'index.html',
+    options: {
+      dest: 'dist',
+      flow: {
+          steps: {
+            js: ['concat', 'uglify'],
+            css: ['cssmin']
+          },
+          post: {}
+      }
+    }
+  },
+  dev: {
+   src: 'index.html',
+   options: {
+     dest: 'app',
+     flow: {
+         steps: {
+           js: ['concat'],
+         },
+         post: {}
+     }
+   }
   }
 }
 ```
